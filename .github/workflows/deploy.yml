@@ -29,11 +29,11 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        working-directory: frontend
+        working-directory: ./frontend
         run: npm ci
 
       - name: Build
-        working-directory: frontend
+        working-directory: ./frontend
         run: npm run build
 
       - name: Setup Pages
@@ -42,7 +42,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: frontend/dist
+          path: ./frontend/dist
 
   deploy:
     environment:
