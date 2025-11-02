@@ -10,19 +10,30 @@ export async function loadSupplyChainDataAsync(): Promise<SupplyChainData> {
   try {
     // Try multiple paths for the JSON file (with base path support)
     const basePath = import.meta.env.BASE_URL || '/nvidia/';
+    // Remove trailing slash if present, then add it back for consistency
+    const normalizedBasePath = basePath.endsWith('/') ? basePath : `${basePath}/`;
     
-    let response = await fetch(`${basePath}companies.json`);
-    if (!response.ok) {
-      response = await fetch(`${basePath}public/companies.json`);
+    // Try different possible paths
+    const paths = [
+      `${normalizedBasePath}companies.json`,  // Primary path with base
+      `${normalizedBasePath}public/companies.json`,  // Alternative with public
+      './companies.json',  // Relative path
+      '/companies.json',  // Root path (fallback)
+      '/nvidia/companies.json',  // Explicit base path
+    ];
+    
+    let response: Response | null = null;
+    for (const path of paths) {
+      try {
+        response = await fetch(path);
+        if (response.ok) break;
+      } catch (e) {
+        console.debug(`Failed to fetch from ${path}:`, e);
+      }
     }
-    if (!response.ok) {
-      response = await fetch('./companies.json');
-    }
-    if (!response.ok) {
-      response = await fetch('/companies.json');
-    }
-    if (!response.ok) {
-      throw new Error('Failed to load data');
+    
+    if (!response || !response.ok) {
+      throw new Error(`Failed to load data from all attempted paths: ${paths.join(', ')}`);
     }
     cachedData = await response.json() as SupplyChainData;
     return cachedData;
