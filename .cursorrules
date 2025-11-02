@@ -1,0 +1,12 @@
+# Configuration MCP pour Cursor
+# Ce fichier aide Cursor à comprendre le contexte du projet
+
+# Le serveur MCP Chrome DevTools est configuré dans .cursor/mcp.json
+# Pour activer dans Cursor:
+# 1. Ouvrez les paramètres de Cursor (Ctrl+,)
+# 2. Allez dans Features > MCP
+# 3. Ajoutez un nouveau serveur:
+#    - Nom: chrome-devtools
+#    - Commande: npx
+#    - Args: chrome-devtools-mcp@latest
+
