@@ -41,8 +41,8 @@ export default function StockTrendChart({ stockData }: StockTrendChartProps) {
   const gradientId = `gradient-${stockData.trend >= 0 ? 'green' : 'red'}-${stockData.ticker}`;
   const minPrice = Math.min(...data.map(d => d.price));
   const maxPrice = Math.max(...data.map(d => d.price));
-  const priceRange = maxPrice - minPrice;
-  // Volatility calculation available but not currently used in UI
+  // Price range and volatility calculation available but not currently used in UI
+  // const priceRange = maxPrice - minPrice;
   // const volatility = priceRange / minPrice * 100;
 
   const CustomTooltip = ({ active, payload, label }: any) => {
