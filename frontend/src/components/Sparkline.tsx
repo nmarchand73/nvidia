@@ -18,7 +18,7 @@ export default function Sparkline({
   height = 30,
   showArea = true 
 }: SparklineProps) {
-  const prices = stockData.prices.map(p => p.close);
+  const prices = stockData.prices.map((p: { close: number }) => p.close);
   const firstPrice = prices[0];
   
   let values: number[];
@@ -77,7 +77,7 @@ export default function Sparkline({
     return { x, y };
   });
 
-  const pointsString = points.map(p => `${p.x},${p.y}`).join(' ');
+  const pointsString = points.map((p: { x: number; y: number }) => `${p.x},${p.y}`).join(' ');
   
   // Create area path for gradient fill
   let areaPath = '';

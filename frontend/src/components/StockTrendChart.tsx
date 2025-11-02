@@ -1,6 +1,6 @@
 import type { StockData } from '../types';
 import { getStockColor } from '../services/stockApi';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 
 interface StockTrendChartProps {
   stockData: StockData;
@@ -42,7 +42,8 @@ export default function StockTrendChart({ stockData }: StockTrendChartProps) {
   const minPrice = Math.min(...data.map(d => d.price));
   const maxPrice = Math.max(...data.map(d => d.price));
   const priceRange = maxPrice - minPrice;
-  const volatility = priceRange / minPrice * 100;
+  // Volatility calculation available but not currently used in UI
+  // const volatility = priceRange / minPrice * 100;
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -89,7 +90,7 @@ export default function StockTrendChart({ stockData }: StockTrendChartProps) {
             stroke="#6b7280"
             fontSize={10}
             interval="preserveStartEnd"
-            tick={{ fill: '#9ca3af', angle: -45, textAnchor: 'end' }}
+            tick={{ fill: '#9ca3af', textAnchor: 'end' }}
             axisLine={{ stroke: '#4b5563' }}
             tickCount={6}
             height={60}

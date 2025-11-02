@@ -364,7 +364,7 @@ export default function SupplyChainGraph({
         (n.market_cap_billions || 0) > 0
       );
       const peerMedianCap = peers.length > 0 
-        ? (d3.median(peers.map(p => p.market_cap_billions || 0)) || medianCap)
+        ? (d3.median(peers.map((p: { market_cap_billions?: number }) => p.market_cap_billions || 0)) || medianCap)
         : medianCap;
       
       // Factor 1: Criticality-to-Market Cap Ratio (higher is better for undervaluation)

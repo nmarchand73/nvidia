@@ -120,7 +120,7 @@ export default function ExportButton({ companies, filters }: ExportButtonProps) 
         scale: 2,
       });
 
-      canvas.toBlob((blob) => {
+      canvas.toBlob((blob: Blob | null) => {
         if (!blob) {
           alert('Erreur lors de la génération de l\'image');
           setIsExporting(false);

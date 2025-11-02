@@ -1,5 +1,4 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
-import ExportButton from './ExportButton';
 import type { SupplyChainData, TimeRange, Company } from '../types';
 
 import type { ViewType } from './SupplyChainGraph';

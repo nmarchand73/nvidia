@@ -305,7 +305,7 @@ export async function fetchStockData(
       // Try alternative ticker formats for international exchanges
       if (exchange && formattedTicker.includes('.')) {
         const baseTicker = ticker;
-        const [base, suffix] = formattedTicker.split('.');
+        const [, suffix] = formattedTicker.split('.');
         console.log(`[${baseTicker}] Trying alternative formats for ${exchange}...`);
         
         // Special case: Asetek was listed on Oslo but moved to Copenhagen
@@ -432,27 +432,27 @@ export async function fetchStockData(
     
     // Filter prices and apply time-based filtering if needed
     let prices = timestamp
-      .map((ts, i) => ({
+      .map((ts: number, i: number) => ({
         date: ts * 1000, // Convert to milliseconds
         close: closes[i],
       }))
-      .filter(p => p.close !== null && p.close !== undefined && !isNaN(p.close));
+      .filter((p: { close: number | null | undefined }) => p.close !== null && p.close !== undefined && !isNaN(p.close));
     
     // For 1 hour period, filter to only the last hour of data
     if (range === '1h' && prices.length > 0) {
       const now = Date.now();
       const oneHourAgo = now - (60 * 60 * 1000); // 1 hour in milliseconds
-      prices = prices.filter(p => p.date >= oneHourAgo);
+      prices = prices.filter((p: { date: number }) => p.date >= oneHourAgo);
       
       if (prices.length === 0) {
         console.warn(`[${formattedTicker}] No data points in the last hour, using all available data`);
         // Fallback: use all available data if no data in last hour
         prices = timestamp
-          .map((ts, i) => ({
+          .map((ts: number, i: number) => ({
             date: ts * 1000,
             close: closes[i],
           }))
-          .filter(p => p.close !== null && p.close !== undefined && !isNaN(p.close));
+          .filter((p: { close: number | null | undefined }) => p.close !== null && p.close !== undefined && !isNaN(p.close));
       } else {
         console.log(`[${formattedTicker}] Filtered to ${prices.length} data points from the last hour`);
       }
@@ -463,17 +463,17 @@ export async function fetchStockData(
       const now = Date.now();
       const oneDayAgo = now - (24 * 60 * 60 * 1000); // 24 hours in milliseconds
       const originalLength = prices.length;
-      prices = prices.filter(p => p.date >= oneDayAgo);
+      prices = prices.filter((p: { date: number }) => p.date >= oneDayAgo);
       
       if (prices.length === 0) {
         console.warn(`[${formattedTicker}] No data points in the last 24 hours, using all available data`);
         // Fallback: use all available data if no data in last 24 hours
         prices = timestamp
-          .map((ts, i) => ({
+          .map((ts: number, i: number) => ({
             date: ts * 1000,
             close: closes[i],
           }))
-          .filter(p => p.close !== null && p.close !== undefined && !isNaN(p.close));
+          .filter((p: { close: number | null | undefined }) => p.close !== null && p.close !== undefined && !isNaN(p.close));
       } else if (prices.length < originalLength) {
         console.log(`[${formattedTicker}] Filtered to ${prices.length} data points from the last 24 hours (was ${originalLength})`);
       }
@@ -484,7 +484,7 @@ export async function fetchStockData(
       const now = Date.now();
       const oneWeekAgo = now - (7 * 24 * 60 * 60 * 1000); // 7 days in milliseconds
       const originalLength = prices.length;
-      prices = prices.filter(p => p.date >= oneWeekAgo);
+      prices = prices.filter((p: { date: number }) => p.date >= oneWeekAgo);
       
       if (prices.length < originalLength) {
         console.log(`[${formattedTicker}] Filtered to ${prices.length} data points from the last week (was ${originalLength})`);

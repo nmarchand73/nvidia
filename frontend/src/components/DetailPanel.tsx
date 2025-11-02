@@ -183,8 +183,8 @@ export default function DetailPanel({ company, timeRange, onClose }: DetailPanel
 
                   {/* Volatility Card */}
                   {(() => {
-                    const minPrice = Math.min(...stockData.prices.map(p => p.close));
-                    const maxPrice = Math.max(...stockData.prices.map(p => p.close));
+                    const minPrice = Math.min(...stockData.prices.map((p: { close: number }) => p.close));
+                    const maxPrice = Math.max(...stockData.prices.map((p: { close: number }) => p.close));
                     const volatility = ((maxPrice - minPrice) / minPrice) * 100;
                     
                     // Calculate the actual duration
