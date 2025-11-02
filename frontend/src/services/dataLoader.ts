@@ -8,13 +8,18 @@ export async function loadSupplyChainDataAsync(): Promise<SupplyChainData> {
   if (cachedData) return cachedData;
 
   try {
-    // Try multiple paths for the JSON file
-    let response = await fetch('/companies.json');
+    // Try multiple paths for the JSON file (with base path support)
+    const basePath = import.meta.env.BASE_URL || '/nvidia/';
+    
+    let response = await fetch(`${basePath}companies.json`);
     if (!response.ok) {
-      response = await fetch('/src/data/companies.json');
+      response = await fetch(`${basePath}public/companies.json`);
     }
     if (!response.ok) {
       response = await fetch('./companies.json');
+    }
+    if (!response.ok) {
+      response = await fetch('/companies.json');
     }
     if (!response.ok) {
       throw new Error('Failed to load data');
